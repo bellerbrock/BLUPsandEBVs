@@ -1,0 +1,261 @@
+Accession	Female_Parent	Male_Parent	Cross_Type
+8524-003			
+92-05	NC1528		biparental
+93-11	Beauregard		biparental
+93-17	Beauregard		biparental
+93-50	Beauregard		biparental
+96-27	L84-74		biparental
+96-61	Beauregard		biparental
+97A-04	92-05		biparental
+97A-45	CarolinaRose		biparental
+BayouBelle	L89-110		biparental
+Beauregard	L78-21		biparental
+Bellevue	L82-529		biparental
+Bienville	L86-33		biparental
+BM85-42			
+Bonita	Excel		biparental
+Burgundy	96-61		biparental
+CarolinaRose	Beauregard		biparental
+Centennial			
+CharlestonScarlet	Regal		biparental
+Covington	NC1528		biparental
+Darby	L83-523		biparental
+Evangeline	Bienville		biparental
+Excel	Regal		biparental
+FT92-36	Centennial		biparental
+FTA94	TARS1		biparental
+Hatteras	L87-95		biparental
+Hernandez	L70-323		biparental
+Huambanchero			
+J_7-13			
+Japanese			
+L13-81			
+L13-84			
+L41-212	Mameyita	L4-6	biparental
+L417			
+L445			
+L4-6			
+L63-217	L41-212		biparental
+L70-197			
+L70-323	L63-217		biparental
+L78-21	L70-197		biparental
+L82-529			
+L82-531			
+L83-523			
+L84-74			
+L86-33	Beauregard		biparental
+L87-95			
+L89-110	L82-531		biparental
+L91-189	Beauregard		biparental
+L96-117	L91-189		biparental
+Laupahoehoe			
+Mameyita			
+MC14-0073	NC04-0531		biparental
+MC14-0363	NC09_0122		biparental
+MC14-0958	NCDM04-0001		biparental
+Murasaki29			
+NC00-0748	FT92-36		biparental
+NC02-0350	Patriot		biparental
+NC02-0423	Hernandez		biparental
+NC02-0459	Bienville		biparental
+NC03-0007	96-61		biparental
+NC03-0030	97A-04		biparental
+NC03-0066	96-27		biparental
+NC03-0302	97A-04		biparental
+NC03-0417	L96-117		biparental
+NC04-0412	97A-04		biparental
+NC04-0531	Ruddy		biparental
+NC05-0050	NC98-0076		biparental
+NC05-0198	97A-45		biparental
+NC05-0408	NC97-0433		biparental
+NC07-0106	NC99-0524		biparental
+NC07-0745	97A-45		biparental
+NC07-0847	NC02-0350		biparental
+NC08-0036	97A-04		biparental
+NC08-0427	NC00-0748		biparental
+NC08-0500	NC02-0459		biparental
+NC08-0544	NC03-0302		biparental
+NC08-0553	NC03-0030		biparental
+NC09-0122			
+NC09_0122	NC03-0302		biparental
+NC09-0164	NC04-0412		biparental
+NC09-0165	NC04-0412		biparental
+NC09-0188	NC05-0408		biparental
+NC09-0350	97A-45		biparental
+NC09-0609	Evangeline		biparental
+NC09-0912	NC02-0423		biparental
+NC09-1105	NC03-0066		biparental
+NC09-1119	Evangeline		biparental
+NC09-1132	Evangeline		biparental
+NC09-1182	Hatteras		biparental
+NC10-0073	CharlestonScarlet		biparental
+NC10-0118	Orleans		biparental
+NC10-0275	NCDM06-0123		biparental
+NC10-0357	97A-04		biparental
+NC10-0503	NCDM04-0001		biparental
+NC11-0234	NC05-0198		biparental
+NC11-0493	NC04-0412		biparental
+NC11-0632	NC07-0106		biparental
+NC12-0190	Huambanchero		biparental
+NC12-0539	Beauregard	Ruddy	biparental
+NC12-0746	NC07-0106		biparental
+NC12-0934	NC07-0847		biparental
+NC12-1149	NC07-0106		biparental
+NC13-0013	NC02-0350		biparental
+NC13-0151	NC07-0847		biparental
+NC13-0254	NC03-0417		biparental
+NC13-0383	NC07-0745		biparental
+NC13-0613	NC08-0427		biparental
+NC13-0909	NC02-0350		biparental
+NC13-1001	NCDM04-0001	Covington	biparental
+NC13-1027	NCDM04-0001	Covington	biparental
+NC13-1161	NC08-0500		biparental
+NC13-1259	NC09-1132		biparental
+NC14-0014	NC02-0350		biparental
+NC14-0118	NC04-0531		biparental
+NC14-0129	NC10-0503		biparental
+NC14-0341	NC04-0531		biparental
+NC14-0353	NC04-0531		biparental
+NC14-0358	NC05-0050		biparental
+NC14-0589	NC04-0531	NC10-0503	biparental
+NC15-0001	97A-04		biparental
+NC15-0005	97A-04		biparental
+NC15-0010	97A-04		biparental
+NC15-0011	NC02-0350		biparental
+NC15-0020	NC02-0350		biparental
+NC15-0036	NC04-0531		biparental
+NC15-0037	NC04-0531		biparental
+NC15-0087	NC09-0609		biparental
+NC15-0091	NC09-0609		biparental
+NC15-0119	NC10-0275		biparental
+NC15-0120	NC10-0275		biparental
+NC15-0134	NC10-0357		biparental
+NC15-0152	Orleans		biparental
+NC15-0180	Bellevue		biparental
+NC15-0185	Bellevue		biparental
+NC15-0231	NC10-0073		biparental
+NC15-0257	Beauregard	Ruddy	biparental
+NC15-0328	Ruddy	Beauregard	biparental
+NC15-0350	97A-04		biparental
+NC15-0418	NC09-1182		biparental
+NC15-0480	Evangeline		biparental
+NC15-0607	NC09-0164		biparental
+NC15-0633	97A-04		biparental
+NC15-0659	NC04-0531		biparental
+NC15-0667	NC12-0190		biparental
+NC15-0691	Q0755_2		biparental
+NC15-0728A			
+NC15-0728B			
+NC15-0750	NCP06-0048		biparental
+NC1528	Regal		biparental
+NC16-0027	NC02-0350		biparental
+NC16-0044	NC04-0531		biparental
+NC16-0134	NC09-0912		biparental
+NC16-0169	NC10-0357		biparental
+NC16-0229	RedResisto		biparental
+NC16-0245	Suwon122		biparental
+NC16-0254	Suwon122		biparental
+NC16-0287	97A-04		biparental
+NC16-0392	NC07-0847		biparental
+NC16-0458	NC09-0188		biparental
+NC16-0470	NC09-0350		biparental
+NC16-0574	Orleans		biparental
+NC16-0628	Suwon122		biparental
+NC16-0679	NC07-0745		biparental
+NC16-0694	NC07-0745		biparental
+NC16-0719	NC09-0165		biparental
+NC16-0720	NC09-0165		biparental
+NC16-0740	NC11-0632		biparental
+NC16-0748	NC11-0632		biparental
+NC16-0771	NC12-1149		biparental
+NC16-0826	NCDM04-0001		biparental
+NC16-0839	J_7-13		biparental
+NC16-0882	NC11-0493	8524-003	biparental
+NC16-0914	NCDM04-0001	Covington	biparental
+NC16-0931	NCDM04-0001	NC12-0746	biparental
+NC16-0945	NC08-0427		biparental
+NC16-0955	NC08-0427		biparental
+NC16-0968	NC08-0553		biparental
+NC16-0971	NCP06-0020		biparental
+NC16-0972	NCP06-0020		biparental
+NC1880	W174		biparental
+NC413			
+NC414			
+NC415			
+NC417			
+NC97-0433	93-11		biparental
+NC98-0076	Darby		biparental
+NC99-0524	93-50		biparental
+NCDM02-0105	BM85-42		biparental
+NCDM04-0001	NC1880		biparental
+NCDM06-0123	Tanzania		biparental
+NCP01-0192			
+NCP04-0062	NC1880		biparental
+NCP04-0144	PPP039		biparental
+NCP05-0055	FTA94	NC414	biparental
+NCP05-0095	NCP01-0192	NC414	biparental
+NCP05-0100	Whitestar	NC415	biparental
+NCP06-0002	97A-04	NC413	biparental
+NCP06-0016	Beauregard	NC413	biparental
+NCP06-0020	BM85-42	NC414	biparental
+NCP06-0048	NCP04-0062	96-61	biparental
+NCP06-0058	NCP04-0144	97A-04	biparental
+NCP09-0017	93-17	NCP06-0058	biparental
+NCP09-0022	NCDM02-0105	NC413	biparental
+NCP09-0027	NC03-0302	NC413	biparental
+NCP09-0060	NC417	NCP05-0095	biparental
+NCP09-0089	NCP05-0100	NC03-0007	biparental
+NCP09-0107	NCP06-0058	Evangeline	biparental
+NCP12-0114	NCP01-0192	NCP05-0055	biparental
+NCP12-0233	NCP09-0017	NCP06-0020	biparental
+NCP12-0258	NCP09-0060	97A-04	biparental
+NCP12-0268	NCP09-0060	NCP09-0022	biparental
+NCP12-0284	NCP09-0107	NC08-0553	biparental
+NCP13-0005	NC07-0847		biparental
+NCP13-0030	NC08-0427		biparental
+NCP13-0196	NC07-0847	NCP09-0027	biparental
+NCP13-0285	NCP06-0002	NCP06-0048	biparental
+NCP13-0315	NCP06-0016	NC08-0553	biparental
+NCP13-0322	NCP09-0017	NCP09-0060	biparental
+NCP13-0326	NCP09-0017	NCP09-0060	biparental
+NCP13-0329	NCP09-0017	NCP09-0060	biparental
+NCP13-0408	NCP06-0002	NCP06-0020	biparental
+NCP14-0014	NC07-0847		biparental
+NCP14-0018	NC07-0847		biparental
+NCP14-0021	NC07-0847		biparental
+NCP14-0099	NC08-0553		biparental
+NCP14-0156	NCP09-0022		biparental
+NCP14-0224	NCP09-0107		biparental
+NCP15-0006	NC09-0188	NCP12-0284	biparental
+NCP15-0007	NC09-0188	NCP12-0284	biparental
+NCP15-0017	NCP09-0107	NC09-0188	biparental
+NCP15-0021	NCP09-0107	NC09-0188	biparental
+NCP15-0022	NCP09-0107	NC09-0188	biparental
+NCP15-0025	NCP09-0107	NCP12-0268	biparental
+NCP15-0037	NCP09-0107	NCP12-0268	biparental
+NCP15-0040	NCP09-0107	NCP12-0268	biparental
+NCP15-0041	NCP09-0107	NCP12-0268	biparental
+NCP15-0050	NCP12-0114	NC09-0188	biparental
+NCP15-0052	NCP12-0258	NCP09-0107	biparental
+NCP15-0058	NCP12-0284	NCP06-0020	biparental
+NCP15-0069	NCP12-0284	NCP06-0020	biparental
+NCP15-0077	NC07-0847		biparental
+NCP15-0099	NC08-0544		biparental
+NCP15-0129	NCP09-0060		biparental
+NCP15-0130	NCP09-0060		biparental
+Orleans	97A-04		biparental
+Patriot			
+PPP039			
+Q0755_2			
+RedResisto			
+Regal	W99		biparental
+Ruddy	W119		biparental
+Suwon122			
+Tanzania			
+TARS1			
+UR17			
+W119			
+W174			
+W99			
+WhiteEvangeline			
+Whitestar	Laupahoehoe		biparental

@@ -1,0 +1,292 @@
+---
+title: "NCSU Sweetpotatobase Yield Dataset Analysis"
+author: "Bryan"
+date: "April 17, 2019"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Data Import
+
+For this analysis I've downloaded two datasets. A spreadsheet with all the NCSU yield data available in the database (downloaded from the wizard), and a pedigree file for all the accessions with yield data (from the download page, using an accession list). The first thing I want to do is load the yield data into R and do some simple filtering and processing so I can look specifically the total yield per plant of accessions that are still active in the program.
+
+```{r}
+
+library(dplyr)
+setwd("/home/bryan/BLUPsandEBVs")
+yieldfile = read.csv("NCSUpheno.csv", skip = 3, header=T)
+colnames(yieldfile)
+data2018 <- yieldfile %>% filter(studyYear == 2018)
+planted2018 <- unique(data2018$germplasmName)
+yield <-  yieldfile[yieldfile$germplasmName %in% planted2018,]
+
+yield$totalperplant <- (yield$Total.root.weight.computation.per.plot.CO_331.0000237/yield$Plants.harvested.counting.number.per.plot.CO_331.0000679)
+yield <- yield[complete.cases(yield[ , which(colnames(yield)=="totalperplant")]),]
+
+# Write and read dataset to avoid issue with filters not actually removing excess accession names. 
+write.csv(yield, file ="yield.csv")
+yield <- read.csv("yield.csv", header=T)
+
+```
+
+## Option 1: Plot Averages
+
+Calculate the average total root yield and % of check root yield for each accession
+
+```{r}
+totalmeans <- yield %>% 
+  filter(!is.na(totalperplant)) %>%
+  group_by(germplasmName) %>%
+  summarise(totalperplant = mean(totalperplant))
+  
+totalcounts <- yield %>% 
+  filter(!is.na(totalperplant)) %>%
+  group_by(germplasmName) %>% tally()
+
+total <- merge(totalmeans,totalcounts,by="germplasmName") %>% arrange(desc(totalperplant))
+head(total, n=15)
+
+# Combine trial and rep as new globally unique 'block' factor
+yield$block <- paste(yield$studyName, yield$replicate, sep='') 
+
+# Extract covington's yield measurments by block and give them unique column names
+cov_data <- yield[yield$germplasmName == "Covington", c("totalperplant","block")]
+names(cov_data) <- c("covtotalperplant", "block")
+
+# Merge covington values back to data frame by block, then calculate percent cov traits
+yieldwithcov <- merge(yield,cov_data,by="block")
+yieldwithcov$TotalYieldPerCov <- yieldwithcov$totalperplant/yieldwithcov$covtotalperplant
+write.csv(yieldwithcov, file ="yield.csv")
+yieldwithcov <- read.csv("yield.csv", header=T)
+
+unique(yieldwithcov$germplasmName)
+
+# Calculate total yield as percentage of Covington mean values
+covtotalmeans <- yieldwithcov %>% 
+  filter(!is.na(TotalYieldPerCov)) %>%
+  group_by(germplasmName) %>%
+  summarise(TotalYieldPerCov = mean(TotalYieldPerCov))
+covtotalcounts <- yieldwithcov %>% 
+  filter(!is.na(TotalYieldPerCov)) %>%
+  group_by(germplasmName) %>% tally()
+
+percov <- merge(covtotalmeans,covtotalcounts,by="germplasmName") %>% arrange(desc(TotalYieldPerCov))
+head(percov, n=15)
+
+```
+
+## Option 2: BLUPs
+
+Calculate total yield and %Cov BLUPs for each genotype, fitting year, location, rep, DAP, and their interactions in the total model, leaving them out of the % COV model
+
+```{r}
+
+# library(lme4)
+# 
+# # Total Yield BLUPS
+# totalmodel = lmer(totalperplant~ (1|germplasmName) + locationName, data = yield, control=lmerControl(check.nlev.gtr.1="warning"))
+# 
+# totalblup = ranef(totalmodel)$germplasmName
+# names(totalblup) <- c("BLUP")
+# totalblup <- totalblup[order(-totalblup$BLUP),,drop = FALSE]
+# head(totalblup, n=15)
+# 
+# # Total %COV BLUPS
+# covtotalmodel = lmer(TotalYieldPerCov~ (1|germplasmName), data = yield, control=lmerControl(check.nlev.gtr.1="warning"))
+# 
+# covtotalblup = ranef(covtotalmodel)$germplasmName
+# names(covtotalblup) <- c("BLUP")
+# percovblup <- covtotalblup[order(-covtotalblup$BLUP),,drop = FALSE]
+# head(percovblup, n=15)
+
+```
+
+# 2.5 As proof of concept, calculate manual BLUPS and compare to previous BLUPs
+
+```{r}
+
+# Retrieve the variance components from the total yield model
+totalmodel = lmer(totalperplant~ (1|germplasmName) + locationName, data = yield, control=lmerControl(check.nlev.gtr.1="warning"))
+vt = as.data.frame(VarCorr(totalmodel))
+Vg = vt$vcov[vt$grp == "germplasmName"]
+Ve = vt$vcov[vt$grp == "Residual"]
+alpha = Ve/Vg
+
+y <- as.vector(yield$totalperplant)
+X <- model.matrix(totalperplant~locationName, data=yield)
+Z <- model.matrix(totalperplant~germplasmName-1, data=yield)
+colnames(Z)= gsub("germplasmName", "", colnames(Z))
+Ident = diag(length(colnames(Z)))
+
+c11= t(X)%*%X
+c12= t(X)%*%Z
+c21= t(Z)%*%X
+c22= t(Z)%*%Z + Ident*alpha
+RHS= rbind(t(X)%*%y,t(Z)%*%y)
+upper_LHS= cbind(c11, c12)
+lower_LHS= cbind(c21, c22)
+LHS= rbind(upper_LHS, lower_LHS)
+invLHS = solve(LHS)
+hatvec = invLHS %*% RHS
+betahat = hatvec[1:ncol(X)]
+head(betahat)
+uhat = hatvec[-(1:ncol(X))] # EBVs
+BLUPs = as.data.frame(uhat)
+BLUPs$germplasmName = colnames(Z)
+totalblup = BLUPs %>% arrange(desc(uhat))
+head(totalblup, n=15)
+
+# Total %Cov maunal BLUPS
+
+covmodel = lmer(TotalYieldPerCov~ (1|germplasmName) + locationName, data = yieldwithcov, control=lmerControl(check.nlev.gtr.1="warning"))
+vt = as.data.frame(VarCorr(covmodel))
+Vg = vt$vcov[vt$grp == "germplasmName"]
+Ve = vt$vcov[vt$grp == "Residual"]
+alpha = Ve/Vg
+
+y <- as.vector(yieldwithcov$TotalYieldPerCov)
+X <- model.matrix(TotalYieldPerCov~locationName, data=yieldwithcov)
+Z <- model.matrix(TotalYieldPerCov~germplasmName-1, data=yieldwithcov)
+colnames(Z)= gsub("germplasmName", "", colnames(Z))
+Ident = diag(length(colnames(Z)))
+c11= t(X)%*%X
+c12= t(X)%*%Z
+c21= t(Z)%*%X
+c22= t(Z)%*%Z + Ident*alpha
+RHS= rbind(t(X)%*%y,t(Z)%*%y)
+upper_LHS= cbind(c11, c12)
+lower_LHS= cbind(c21, c22)
+LHS= rbind(upper_LHS, lower_LHS)
+invLHS = solve(LHS)
+hatvec = invLHS %*% RHS
+betahat = hatvec[1:ncol(X)]
+head(betahat)
+uhat = hatvec[-(1:ncol(X))] # EBVs
+BLUPs = as.data.frame(uhat)
+BLUPs$germplasmName = colnames(Z)
+percovblup = BLUPs %>% arrange(desc(uhat))
+head(percovblup, n=15)
+
+```
+
+## Option 3: EBVs
+
+Calculate then estimated breeding values. Essentially the same as BLUPs, but now taking into account pedigree information. I have not had much luck using pedigreemm, so instead will calcualte the EBVs manually as covered in PLBRG 4080
+
+```{r}
+
+# Retrieve the variance components from the total yield model
+vt = as.data.frame(VarCorr(totalmodel))
+Vg = vt$vcov[vt$grp == "germplasmName"]
+Ve = vt$vcov[vt$grp == "Residual"]
+alpha = Ve/Vg
+
+#read in pedigree file download from spbase and remove duplicated rows
+ped <- read.table ("pedigree.txt", header = TRUE, sep = "\t", check.names = FALSE, stringsAsFactors = FALSE)
+
+# use editPed to order the pedigree by generation and make sure there is a row for each unique accession name, including parents
+P2= editPed(dam=ped$Female_Parent, sire=ped$Male_Parent, label=ped$Accession)
+
+# read records corrected by editPed into a formal pedigree object
+P3= pedigree(P2$sire, P2$dam, P2$label)
+Amat <- getA(P3)
+dim(Amat)
+#include_list <- yield$germplasmName
+#Amat <- Amat[rownames(Amat) %in% include_list, colnames(Amat) %in% include_list] 
+
+#unique(yield$germplasmName)
+
+y <- as.vector(yield$totalperplant)
+X <- model.matrix(totalperplant~locationName, data=yield)
+Z <- model.matrix(totalperplant~germplasmName-1, data=yield)
+colnames(Z)= gsub("germplasmName", "", colnames(Z))
+
+Amat= Amat[colnames(Z),colnames(Z)]
+Amatinv= solve(Amat)
+
+c11= t(X)%*%X
+c12= t(X)%*%Z
+c21= t(Z)%*%X
+c22= t(Z)%*%Z + Amatinv*alpha
+RHS= rbind(t(X)%*%y,t(Z)%*%y)
+upper_LHS= cbind(c11, c12)
+lower_LHS= cbind(c21, c22)
+LHS= rbind(upper_LHS, lower_LHS)
+invLHS = solve(LHS)
+hatvec = invLHS %*% RHS
+betahat = hatvec[1:ncol(X)]
+head(betahat)
+uhat = hatvec[-(1:ncol(X))] # EBVs
+EBVs = as.data.frame(uhat)
+EBVs$germplasmName = colnames(Z)
+totalebv = EBVs %>% arrange(desc(uhat))
+head(totalebv, n=15)
+
+# Total %Cov EBVS
+
+vt = as.data.frame(VarCorr(covmodel))
+Vg = vt$vcov[vt$grp == "germplasmName"]
+Ve = vt$vcov[vt$grp == "Residual"]
+alpha = Ve/Vg
+
+y <- as.vector(yieldwithcov$TotalYieldPerCov)
+X <- model.matrix(TotalYieldPerCov~locationName, data=yieldwithcov)
+Z <- model.matrix(TotalYieldPerCov~germplasmName-1, data=yieldwithcov)
+colnames(Z)= gsub("germplasmName", "", colnames(Z))
+Amat= Amat[colnames(Z),colnames(Z)]
+Amatinv= solve(Amat)
+c11= t(X)%*%X
+c12= t(X)%*%Z
+c21= t(Z)%*%X
+c22= t(Z)%*%Z + Amatinv*alpha
+RHS= rbind(t(X)%*%y,t(Z)%*%y)
+upper_LHS= cbind(c11, c12)
+lower_LHS= cbind(c21, c22)
+LHS= rbind(upper_LHS, lower_LHS)
+invLHS = solve(LHS)
+hatvec = invLHS %*% RHS
+betahat = hatvec[1:ncol(X)]
+head(betahat)
+uhat = hatvec[-(1:ncol(X))] # EBVs
+EBVs = as.data.frame(uhat)
+EBVs$germplasmName = colnames(Z)
+percovebv = EBVs %>% arrange(desc(uhat))
+head(percovebv, n=15)
+
+```
+
+#Compare Rankings of top 15 clones for all methods for each trait
+
+```{r}
+library(gridExtra)
+library(grid)
+
+# cbind all ranked lists and draw a table
+total$"total" <- apply( total[ , c("germplasmName","totalperplant") ] , 1 , paste , collapse = " - " )
+percov$"percov" <- apply( percov[ , c("germplasmName","TotalYieldPerCov") ] , 1 , paste , collapse = " - " )
+#totalblup$names <- rownames(totalblup)
+totalblup$"totalBLUP" <- apply( totalblup[ , c("germplasmName","uhat") ] , 1 , paste , collapse = " - " )
+#percovblup$names <- rownames(percovblup)
+percovblup$"percovBLUP" <- apply( percovblup[ , c("germplasmName","uhat") ] , 1 , paste , collapse = " - " )
+#totalebv$names <- rownames(totalebv)
+totalebv$"totalEBV" <- apply( totalebv[ , c("germplasmName","uhat") ] , 1 , paste , collapse = " - " )
+#percovebv$names <- rownames(percovebv)
+percovebv$"percovEBV" <- apply( percovebv[ , c("germplasmName","uhat") ] , 1 , paste , collapse = " - " )
+
+totald <- as.data.frame(cbind(
+  head(total$`total`, n=15), 
+  head(percov$`percov`, n=15), 
+  head(totalblup$`totalBLUP`, n=15), 
+  head(percovblup$`percovBLUP`, n=15),
+  head(totalebv$`totalEBV`, n=15), 
+  head(percovebv$`percovEBV`, n=15)
+))
+
+names(totald) <- c("TotalKg/plant", "TotalKg%Covington", "TotalKg/plant BLUPs", "TotalKg%Covington BLUPs","TotalKgperplant EBVs","TotalKg%Covington EBVs")
+grid.table(totald)
+
+```
+
